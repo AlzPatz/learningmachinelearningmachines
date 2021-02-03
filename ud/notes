@@ -1,0 +1,139 @@
+Learning Machine Learning (Machines)
+
+1. Supervised - Train from labelled data
+
+    Classification - Category 
+
+    Regression - Numeric outcome (continous)
+
+2. Unsupervised - Create models for data without preexisting labels
+
+Such as group data 
+
+3. Reinforcement Learning - Train based on rewards / scoring of prior actions
+
+puter plays mario one
+
+Deep Learning - can be used for all 3. 
+
+Need lots of data, lots of compute, won't undestand why results are made
+
+(another ND on deep learning possible after?)
+
+TensorFlow and Sciki-learn
+
+Bias in data will create in bias in models
+
+Linear Regression
+------------------
+
+Fitting a line, absolute and square trick
+
+Measure error, reduce, repeat, gradient decent
+
+Which changes reduce error the most? function, find minimum (d/dy=0)
+
+Error functions:
+Mean absolute
+Mean Squared
+
+Always errors to be positive, so they don't cancel out. So easier to use Squared
+mean squared error = 1/2m Sum[1-m] (y - y*)^2
+
+Minimizing Error Function? take derivative
+points on line
+error = 1/2(y - y*)^2
+where y* = ax + c
+
+chainrule
+d error / da = d error / dy* . dy* / da
+
+d error / dy* = derivative of error with respect to the prediction y*
+= -(y - y*)
+
+dy* / da = x
+
+d error / da = -(y - y*)x
+
+Batch vs Stochastic Gradient Descent
+
+Stochastic - one point at a time, updating weights
+Batch - calculate values for all points and update them together
+
+which to use? neither. Split data into batches of points: Mini-batch gradient Descent
+
+from sklearn.linear_model import LinearRegression
+model = LinearRegression()
+model.fit (xs, ys)
+model.predict(x)
+
+Linear Regression on multiple variables... same
+2 independent variables (predictors), 1 result (dependent variable) = w0x + w1y + c . Plane of results
+higher dimensions.. n - 1 hyper plane.
+w0x0 + w1x1 + w2x2 + ... wn ...
+Gradient descent the same for all. Multiple Linear Regression
+
+Same code... xs can be arrays or arrays of features
+
+Why don't solve start with linear alegebra (finding derivs of 0 of error function)
+The more dimensions, the more complex the linear equations are to compute (inverting large matrices)
+compute power required is too high
+so use gradient decent for large n
+
+Problems with Linear Regression
+- works best when data is linear (LOL)
+- very sensitive to outliers
+
+Polynomial Regression
+---------------------
+
+Same algorithm, reduce error, just a bit more complex
+
+.. Create PolynomialFeatures, then fit_transform.. feed into LinearRegression
+
+Regularization
+Complex model with many terms overfits. Poly might have less error than line but
+will overfit. If you add the polynomial terms to the error in some way
+you can reject overly complex models and avoid overfitting
+
+Why do this? Simpler models have a tendency to generalise better
+
+How to take complexity of the model and add to the error? adds absolute values of the cooefficients to the error
+L1 regularisation - add absolute coefficient values
+L2 regularisation - add the squares of the coefficients to the error
+
+How do we know if we punish the complex model too little or too much? 
+Tune punishment of complexity with paramater lambda (which multiplies the complexity part of the error)
+
+Us L1 or L2?
+L1 - computationally heavy unless sparse data (to do with L2 squares, derivs, easier computationally)
+
+L1 good for sparse data
+L2 good for non sparse outputs
+L1 gives us feature selection (ie somehow detects / remove noise columns, whereas L2 squaring will treat all columns equally)
+
+(sklearn lasso)
+
+Feature Scaling
+Transform data into common range of values (standardising or normalising)
+Standardizing is completed by taking each value of your column, subtracting the mean of the column, and then dividing by the standard deviation of the column.
+Standardising essentially creates comparison to the mean. the number of standard deviations from the mean
+normalising is obvious, 0 t 1
+
+When to use feature scaling?
+When result of algorithm will change based on units in data, such as when distance based metrics to predict or when incorporate regularisation
+(Feature scaling important in Support Vector Machines, SVMs.. as use a distance based method)
+
+Regularisation needs feature scaling, as if the sizes of different features are vastly difference scales / ranges, then regulasation applied to coeeficients and adding errors will
+have much greater impact on some features than others
+
+Feature scaling can also speed up convergence of ML algorithms
+
+sklearn -> standardscalar will standardise data pre fit
+
+REGRESSION - Predicting Quantitative values
+    Gradient descent as a method to optimize your linear models.
+    Multiple Linear Regression as a technique for when you are comparing more than two variables.
+    Polynomial Regression for relationships between variables that aren't linear.
+    Regularization as a technique to assure that your models will not only fit to the data available, but also extend to new situations.
+
